@@ -31,21 +31,29 @@ export default function ReadingLessonPlayer({ lesson }: { lesson: ReadingLesson 
   const exercise = lesson.exercises[exerciseIndex];
   const correct = checked && answer === exercise.answer;
 
+  function selectedAnswerText() {
+    if (exercise.kind === 'word-builder') return answer;
+    return exercise.options?.find((option) => option.id === answer)?.text ?? answer;
+  }
+
+  function correctAnswerText() {
+    if (exercise.kind === 'word-builder') return exercise.answer;
+    return exercise.options?.find((option) => option.id === exercise.answer)?.text ?? exercise.answer;
+  }
+
   function checkAnswer() {
     if (!answer) return;
     const isCorrect = answer === exercise.answer;
     if (isCorrect) {
       setScore((value) => value + 1);
     } else {
-      const wrong = exercise.options.find((option) => option.id === answer)?.text ?? answer;
-      const right = exercise.options.find((option) => option.id === exercise.answer)?.text ?? exercise.answer;
       saveMistake({
         unitId: 'reading-course',
         lessonId: lesson.id,
         exerciseId: exercise.id,
         prompt: exercise.prompt,
-        wrongAnswer: wrong,
-        correctAnswer: right,
+        wrongAnswer: selectedAnswerText(),
+        correctAnswer: correctAnswerText(),
         explanationRu: exercise.explanationRu,
       });
     }
@@ -54,8 +62,10 @@ export default function ReadingLessonPlayer({ lesson }: { lesson: ReadingLesson 
 
   function nextExercise() {
     if (exerciseIndex === lesson.exercises.length - 1) {
-      const percent = Math.round((score / lesson.exercises.length) * 100);
+      const finalScore = score + (correct ? 0 : answer === exercise.answer ? 1 : 0);
+      const percent = Math.round((finalScore / lesson.exercises.length) * 100);
       saveLessonProgress('reading-course', lesson.id, percent);
+      setScore(finalScore);
       setFinished(true);
       return;
     }
@@ -70,6 +80,11 @@ export default function ReadingLessonPlayer({ lesson }: { lesson: ReadingLesson 
     setChecked(false);
     setScore(0);
     setFinished(false);
+  }
+
+  function addTile(tile: string) {
+    if (checked) return;
+    setAnswer((value) => value + tile);
   }
 
   if (finished) {
@@ -153,13 +168,26 @@ export default function ReadingLessonPlayer({ lesson }: { lesson: ReadingLesson 
           <div><p className="instruction">{exercise.instructionRu}</p><h2 className="prompt">{exercise.prompt}</h2></div>
           {exercise.speakText ? <button className="listen-button" onClick={() => speak(exercise.speakText!)}>🔊 <span>Послушать</span></button> : null}
         </div>
-        <div className="visual-options">
-          {exercise.options.map((option) => (
-            <button key={option.id} className={`visual-option ${answer === option.id ? 'selected' : ''}`} onClick={() => !checked && setAnswer(option.id)} disabled={checked}>
-              {option.emoji ? <span>{option.emoji}</span> : null}<strong>{option.text}</strong>
-            </button>
-          ))}
-        </div>
+
+        {exercise.kind === 'word-builder' ? (
+          <div className="word-builder">
+            <div className="built-word" aria-label="Собранное слово">{answer || <span>_ _ _</span>}</div>
+            <div className="letter-tiles">
+              {exercise.tiles?.map((tile, index) => <button key={`${tile}-${index}`} disabled={checked} onClick={() => addTile(tile)}>{tile}</button>)}
+            </div>
+            {!checked ? <button className="text-button builder-clear" disabled={!answer} onClick={() => setAnswer('')}>Очистить</button> : null}
+          </div>
+        ) : (
+          <div className="visual-options">
+            {exercise.options?.map((option) => (
+              <button key={option.id} className={`visual-option ${answer === option.id ? 'selected' : ''}`} onClick={() => !checked && setAnswer(option.id)} disabled={checked}>
+                {option.visual ? <WordPicture visual={option.visual} emoji={option.emoji ?? '•'} label={option.text} /> : option.emoji ? <span>{option.emoji}</span> : null}
+                <strong>{option.text}</strong>
+              </button>
+            ))}
+          </div>
+        )}
+
         {checked ? <div className={`feedback ${correct ? 'correct' : 'incorrect'}`}><strong>{correct ? '✅ Верно!' : '💡 Разберём.'}</strong><p>{exercise.explanationRu}</p></div> : null}
         <div className="exercise-actions">{!checked ? <button className="primary-button" disabled={!answer} onClick={checkAnswer}>Проверить</button> : <button className="primary-button" onClick={nextExercise}>{exerciseIndex === lesson.exercises.length - 1 ? 'Завершить урок' : 'Следующее'}</button>}</div>
       </section>
