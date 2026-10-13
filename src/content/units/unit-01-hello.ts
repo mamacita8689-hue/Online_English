@@ -1,0 +1,132 @@
+import type { Unit } from '../types';
+
+export const unit01Hello: Unit = {
+  id: 'unit-01-hello',
+  order: 1,
+  title: 'Hello!',
+  titleRu: 'Привет!',
+  descriptionRu: 'Учимся здороваться, представляться, спрашивать имя и прощаться.',
+  lessons: [
+    {
+      id: 'lesson-01-greetings',
+      title: 'Greetings',
+      titleRu: 'Приветствие и знакомство',
+      goalRu: 'Научиться здороваться, называть своё имя и спрашивать имя собеседника.',
+      vocabulary: [
+        { id: 'hello', english: 'Hello!', russian: 'Привет!' },
+        { id: 'hi', english: 'Hi!', russian: 'Привет!' },
+        { id: 'good-morning', english: 'Good morning!', russian: 'Доброе утро!' },
+        { id: 'goodbye', english: 'Goodbye!', russian: 'До свидания!' },
+        { id: 'bye', english: 'Bye!', russian: 'Пока!' },
+        { id: 'name', english: 'name', russian: 'имя', example: 'My name is Masha.' },
+        { id: 'fine', english: 'fine', russian: 'хорошо', example: "I'm fine." },
+        { id: 'thank-you', english: 'Thank you!', russian: 'Спасибо!' },
+      ],
+      theory: [
+        {
+          id: 'introduce-yourself',
+          title: 'My name is...',
+          explanationRu: 'Чтобы назвать своё имя, можно сказать “My name is ...” или коротко “I am ...”.',
+          examples: [
+            { english: 'My name is Masha.', russian: 'Меня зовут Маша.' },
+            { english: 'I am Misha.', russian: 'Я Миша.' },
+          ],
+        },
+        {
+          id: 'ask-name',
+          title: 'What is your name?',
+          explanationRu: 'Чтобы спросить имя другого человека, говорим “What is your name?”.',
+          examples: [
+            { english: 'What is your name?', russian: 'Как тебя зовут?' },
+            { english: 'My name is Sasha.', russian: 'Меня зовут Саша.' },
+          ],
+        },
+        {
+          id: 'how-are-you',
+          title: 'How are you?',
+          explanationRu: '“How are you?” значит “Как дела?”. Простой ответ — “I’m fine, thank you.”',
+          examples: [
+            { english: 'How are you?', russian: 'Как дела?' },
+            { english: "I'm fine, thank you.", russian: 'Хорошо, спасибо.' },
+          ],
+        },
+      ],
+      exercises: [
+        {
+          id: 'hello-01',
+          type: 'multiple-choice',
+          prompt: 'Hello!',
+          instructionRu: 'Выбери правильный перевод.',
+          options: [
+            { id: 'a', text: 'Привет!' },
+            { id: 'b', text: 'Спасибо!' },
+            { id: 'c', text: 'До свидания!' },
+          ],
+          answer: 'a',
+          explanationRu: 'Hello! — это приветствие: «Привет!».',
+          points: 1,
+        },
+        {
+          id: 'hello-02',
+          type: 'missing-word',
+          prompt: 'My ___ is Anna.',
+          instructionRu: 'Выбери пропущенное слово.',
+          options: [
+            { id: 'a', text: 'name' },
+            { id: 'b', text: 'fine' },
+            { id: 'c', text: 'hello' },
+          ],
+          answer: 'a',
+          explanationRu: 'Фраза “My name is Anna” означает «Меня зовут Анна».',
+          points: 1,
+        },
+        {
+          id: 'hello-03',
+          type: 'multiple-choice',
+          prompt: 'What is your name?',
+          instructionRu: 'Выбери подходящий ответ.',
+          options: [
+            { id: 'a', text: 'My name is Max.' },
+            { id: 'b', text: 'Goodbye!' },
+            { id: 'c', text: 'Thank you!' },
+          ],
+          answer: 'a',
+          explanationRu: 'На вопрос “What is your name?” отвечаем, называя своё имя.',
+          points: 1,
+        },
+        {
+          id: 'hello-04',
+          type: 'multiple-choice',
+          prompt: 'How are you?',
+          instructionRu: 'Выбери подходящий ответ.',
+          options: [
+            { id: 'a', text: "I'm fine, thank you." },
+            { id: 'b', text: 'My name is Kate.' },
+            { id: 'c', text: 'Good morning!' },
+          ],
+          answer: 'a',
+          explanationRu: '“How are you?” — «Как дела?». Подходящий ответ: “I’m fine, thank you.”',
+          points: 1,
+        },
+        {
+          id: 'hello-05',
+          type: 'sentence-builder',
+          prompt: 'name / My / is / Ben',
+          instructionRu: 'Собери предложение.',
+          answer: ['My', 'name', 'is', 'Ben'],
+          explanationRu: 'Правильный порядок слов: “My name is Ben.”',
+          points: 2,
+        },
+        {
+          id: 'hello-06',
+          type: 'translation',
+          prompt: 'Меня зовут Лиза.',
+          instructionRu: 'Переведи предложение на английский.',
+          answer: 'My name is Lisa.',
+          explanationRu: 'Для представления используем конструкцию “My name is ...”.',
+          points: 2,
+        },
+      ],
+    },
+  ],
+};
