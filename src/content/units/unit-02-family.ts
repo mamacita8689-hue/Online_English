@@ -1,0 +1,132 @@
+import type { Unit } from '../types';
+
+export const unit02Family: Unit = {
+  id: 'unit-02-family',
+  order: 2,
+  title: 'My Family',
+  titleRu: 'Моя семья',
+  descriptionRu: 'Учимся называть членов семьи и рассказывать о них простыми фразами.',
+  lessons: [
+    {
+      id: 'lesson-02-family',
+      title: 'My Family',
+      titleRu: 'Моя семья',
+      goalRu: 'Научиться называть членов семьи и использовать he, she, his и her.',
+      vocabulary: [
+        { id: 'mother', english: 'mother', russian: 'мама', example: 'This is my mother.' },
+        { id: 'father', english: 'father', russian: 'папа', example: 'This is my father.' },
+        { id: 'sister', english: 'sister', russian: 'сестра', example: 'She is my sister.' },
+        { id: 'brother', english: 'brother', russian: 'брат', example: 'He is my brother.' },
+        { id: 'grandmother', english: 'grandmother', russian: 'бабушка' },
+        { id: 'grandfather', english: 'grandfather', russian: 'дедушка' },
+        { id: 'family', english: 'family', russian: 'семья', example: 'This is my family.' },
+        { id: 'name-family', english: 'name', russian: 'имя', example: 'Her name is Anna.' },
+      ],
+      theory: [
+        {
+          id: 'he-she',
+          title: 'He и She',
+          explanationRu: 'He значит «он», а she значит «она». He используем, когда говорим о мальчике или мужчине, she — о девочке или женщине.',
+          examples: [
+            { english: 'He is my brother.', russian: 'Он мой брат.' },
+            { english: 'She is my sister.', russian: 'Она моя сестра.' },
+          ],
+        },
+        {
+          id: 'his-her',
+          title: 'His и Her',
+          explanationRu: 'His значит «его», а her — «её». Эти слова помогают сказать, как зовут другого человека.',
+          examples: [
+            { english: 'His name is Max.', russian: 'Его зовут Макс.' },
+            { english: 'Her name is Kate.', russian: 'Её зовут Кейт.' },
+          ],
+        },
+        {
+          id: 'this-is',
+          title: 'This is...',
+          explanationRu: 'Фразой “This is...” можно представить человека: «Это...».',
+          examples: [
+            { english: 'This is my mother.', russian: 'Это моя мама.' },
+            { english: 'This is my family.', russian: 'Это моя семья.' },
+          ],
+        },
+      ],
+      exercises: [
+        {
+          id: 'family-01',
+          type: 'multiple-choice',
+          prompt: 'sister',
+          instructionRu: 'Выбери правильный перевод.',
+          options: [
+            { id: 'a', text: 'сестра' },
+            { id: 'b', text: 'брат' },
+            { id: 'c', text: 'мама' },
+          ],
+          answer: 'a',
+          explanationRu: 'Sister — «сестра».',
+          points: 1,
+        },
+        {
+          id: 'family-02',
+          type: 'missing-word',
+          prompt: '___ is my brother.',
+          instructionRu: 'Выбери правильное слово.',
+          options: [
+            { id: 'a', text: 'He' },
+            { id: 'b', text: 'She' },
+            { id: 'c', text: 'Her' },
+          ],
+          answer: 'a',
+          explanationRu: 'Brother — брат, поэтому говорим “He is my brother.”',
+          points: 1,
+        },
+        {
+          id: 'family-03',
+          type: 'missing-word',
+          prompt: '___ name is Anna.',
+          instructionRu: 'Анна — девочка. Выбери слово «её».',
+          options: [
+            { id: 'a', text: 'His' },
+            { id: 'b', text: 'Her' },
+            { id: 'c', text: 'He' },
+          ],
+          answer: 'b',
+          explanationRu: 'Her значит «её»: “Her name is Anna.”',
+          points: 1,
+        },
+        {
+          id: 'family-04',
+          type: 'multiple-choice',
+          prompt: 'This is my father.',
+          instructionRu: 'Выбери правильный перевод.',
+          options: [
+            { id: 'a', text: 'Это мой папа.' },
+            { id: 'b', text: 'Это мой брат.' },
+            { id: 'c', text: 'Это моя мама.' },
+          ],
+          answer: 'a',
+          explanationRu: 'Father — папа. “This is my father.” — «Это мой папа».',
+          points: 1,
+        },
+        {
+          id: 'family-05',
+          type: 'sentence-builder',
+          prompt: 'my / She / sister / is',
+          instructionRu: 'Собери предложение.',
+          answer: ['She', 'is', 'my', 'sister'],
+          explanationRu: 'Правильный порядок слов: “She is my sister.”',
+          points: 2,
+        },
+        {
+          id: 'family-06',
+          type: 'translation',
+          prompt: 'Это моя семья.',
+          instructionRu: 'Переведи на английский.',
+          answer: 'This is my family.',
+          explanationRu: 'Используем знакомую конструкцию “This is...” — “This is my family.”',
+          points: 2,
+        },
+      ],
+    },
+  ],
+};
