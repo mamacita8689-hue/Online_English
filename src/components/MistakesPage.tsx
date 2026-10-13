@@ -43,7 +43,11 @@ export default function MistakesPage() {
           </div>
           <div className="mistakes-list">
             {mistakes.map((mistake) => {
-              const repeatHref = mistake.unitId === 'starter-reading' ? '/reading#practice' : `/lesson/${mistake.unitId}`;
+              const repeatHref = mistake.unitId === 'reading-course'
+                ? `/reading/${mistake.lessonId}`
+                : mistake.unitId === 'starter-reading'
+                  ? '/reading'
+                  : `/lesson/${mistake.unitId}`;
               return (
                 <article className="mistake-card" key={mistake.id}>
                   <div className="mistake-top"><span>Попыток: {mistake.attempts}</span></div>
