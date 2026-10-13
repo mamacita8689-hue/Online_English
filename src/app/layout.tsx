@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import './starter.css';
+import './reading-lessons.css';
 
 export const metadata: Metadata = {
   title: 'Online English — 2 класс',
