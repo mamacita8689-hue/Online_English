@@ -1,0 +1,31 @@
+.compact-reading-hero { align-items: center; }
+.reading-course-panel { margin-top: 0; }
+.reading-lesson-list { display: grid; gap: 14px; margin-top: 18px; }
+.reading-lesson-card { display: grid; grid-template-columns: 92px 1fr; gap: 18px; align-items: center; padding: 18px; border: 1px solid var(--border); border-radius: 22px; background: #fff; text-decoration: none; transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; }
+.reading-lesson-card:hover { transform: translateY(-2px); border-color: #cbd4ff; box-shadow: 0 10px 22px rgba(44,57,110,.06); }
+.reading-lesson-icon { min-height: 84px; display: grid; place-items: center; border-radius: 20px; background: #eef2ff; color: #4054c6; font-size: 26px; font-weight: 900; text-align: center; }
+.reading-lesson-copy { min-width: 0; }
+.reading-lesson-copy h3 { margin: 4px 0 0; font-size: 23px; }
+.reading-lesson-copy p { margin: 8px 0 14px; color: var(--muted); line-height: 1.45; }
+.reading-step-label { color: #67738a; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.reading-lesson-hero { background: linear-gradient(135deg, #fffdf8 0%, #f5f7ff 100%); }
+.reading-lesson-hero h1 { font-size: clamp(38px, 6vw, 66px); }
+.reading-lesson-hero-icon { min-width: 118px; min-height: 118px; display: grid; place-items: center; border-radius: 28px; background: #eef2ff; color: #4054c6; font-size: 30px; font-weight: 900; text-align: center; }
+.lesson-alphabet-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.reading-lesson-practice { border-color: #d9e1ff; }
+
+@media (max-width: 760px) {
+  .reading-lesson-card { grid-template-columns: 72px 1fr; padding: 15px; }
+  .reading-lesson-icon { min-height: 70px; border-radius: 17px; font-size: 21px; }
+  .lesson-alphabet-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .reading-lesson-hero { align-items: flex-start; }
+  .reading-lesson-hero-icon { min-width: 78px; min-height: 78px; border-radius: 21px; font-size: 22px; }
+}
+
+@media (max-width: 520px) {
+  .reading-lesson-card { grid-template-columns: 58px 1fr; gap: 12px; }
+  .reading-lesson-icon { min-height: 58px; border-radius: 15px; font-size: 17px; }
+  .reading-lesson-copy h3 { font-size: 19px; }
+  .lesson-alphabet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reading-lesson-hero-icon { display: none; }
+}
