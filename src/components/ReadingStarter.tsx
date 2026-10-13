@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { readingStarter } from '@/content/reading/starter';
 import type { PhonicsExample, PhonicsPattern } from '@/content/reading/types';
 import { saveLessonProgress, saveMistake } from '@/lib/storage';
@@ -53,8 +53,6 @@ export default function ReadingStarter() {
   const correct = checked && answer === exercise.answer;
   const total = readingStarter.exercises.length;
 
-  const activeLetter = useMemo(() => readingStarter.alphabet.find((item) => item.upper === 'A')!, []);
-
   function checkAnswer() {
     if (!answer) return;
     const result = answer === exercise.answer;
@@ -78,7 +76,7 @@ export default function ReadingStarter() {
 
   function nextExercise() {
     if (exerciseIndex === total - 1) {
-      const finalScore = score + (answer === exercise.answer ? 1 : 0);
+      const finalScore = score;
       const percent = Math.round((finalScore / total) * 100);
       saveLessonProgress('starter-reading', 'starter-reading', percent);
       setFinished(true);
