@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { courseUnits } from '@/content/units';
+import { readingLessons } from '@/content/reading/course';
 import { getMistakes, getProgress } from '@/lib/storage';
 
 export default function CourseHome() {
@@ -14,13 +15,19 @@ export default function CourseHome() {
     setMistakesCount(getMistakes().length);
   }, []);
 
-  const readingProgress = progress['starter-reading:starter-reading'];
+  const readingCompleted = useMemo(
+    () => readingLessons.filter((lesson) => progress[`reading-course:${lesson.id}`]?.completed).length,
+    [progress],
+  );
+  const readingPercent = Math.round((readingCompleted / readingLessons.length) * 100);
+  const readingDone = readingCompleted === readingLessons.length;
+
   const completed = useMemo(
     () => courseUnits.filter((unit) => progress[`${unit.id}:${unit.lessons[0].id}`]?.completed).length,
     [progress],
   );
   const totalBlocks = courseUnits.length + 1;
-  const completedBlocks = completed + (readingProgress?.completed ? 1 : 0);
+  const completedBlocks = completed + (readingDone ? 1 : 0);
   const overall = Math.round((completedBlocks / totalBlocks) * 100);
 
   return (
@@ -39,11 +46,11 @@ export default function CourseHome() {
         <div className="reading-entry-copy">
           <p className="eyebrow">Начни отсюда</p>
           <h2>Starter: буквы, звуки и чтение</h2>
-          <p>26 букв, короткие гласные, сочетания <strong>sh, ch, th, ee, oo, ar, or</strong>, визуальные примеры и короткая тренировка.</p>
+          <p>5 коротких уроков: алфавит, короткие гласные, сочетания букв и первое чтение.</p>
           <div className="starter-tags"><span>ABC</span><span>🔊 звуки</span><span>🖼️ картинки</span><span>📖 чтение</span></div>
         </div>
         <div className="reading-entry-action">
-          <span className={`status-pill ${readingProgress?.completed ? 'done' : readingProgress?.bestPercent ? 'started' : ''}`}>{readingProgress?.completed ? '✓ Освоено' : readingProgress?.bestPercent ? `${readingProgress.bestPercent}%` : 'Новое'}</span>
+          <span className={`status-pill ${readingDone ? 'done' : readingPercent > 0 ? 'started' : ''}`}>{readingDone ? '✓ Освоено' : readingPercent > 0 ? `${readingPercent}%` : '5 уроков'}</span>
           <Link className="primary-button" href="/reading">Учимся читать →</Link>
         </div>
       </section>
