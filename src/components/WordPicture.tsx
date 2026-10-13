@@ -34,5 +34,7 @@ export default function WordPicture({ visual, emoji, label }: Props) {
       return <svg {...common} className="word-picture"><path d="M38 70 53 44h68l18 26h11v25H30V70Z" fill="#ef6b62"/><path d="M65 49h44l12 19H53Z" fill="#d9eff8"/><circle cx="58" cy="95" r="12" fill="#303846"/><circle cx="124" cy="95" r="12" fill="#303846"/></svg>;
     case 'star':
       return <svg {...common} className="word-picture"><path d="m90 14 14 29 32 5-23 22 6 32-29-15-29 15 6-32-23-22 32-5Z" fill="#ffd45f" stroke="#e8b94c" strokeWidth="3"/></svg>;
+    default:
+      return <div className="word-picture emoji-picture" aria-label={label}>{emoji}</div>;
   }
 }
