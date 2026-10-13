@@ -43,14 +43,17 @@ export interface ReadingExerciseOption {
   id: string;
   text: string;
   emoji?: string;
+  visual?: VisualId;
 }
 
 export interface ReadingExercise {
   id: string;
+  kind?: 'choice' | 'word-builder';
   instructionRu: string;
   prompt: string;
   speakText?: string;
-  options: ReadingExerciseOption[];
+  options?: ReadingExerciseOption[];
+  tiles?: string[];
   answer: string;
   explanationRu: string;
 }
