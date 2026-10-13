@@ -1,5 +1,5 @@
-import ReadingStarter from '@/components/ReadingStarter';
+import ReadingCourseHome from '@/components/ReadingCourseHome';
 
 export default function ReadingPage() {
-  return <ReadingStarter />;
+  return <ReadingCourseHome />;
 }
