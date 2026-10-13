@@ -42,16 +42,19 @@ export default function MistakesPage() {
             <button className="text-button" onClick={clearAll}>Очистить список</button>
           </div>
           <div className="mistakes-list">
-            {mistakes.map((mistake) => (
-              <article className="mistake-card" key={mistake.id}>
-                <div className="mistake-top"><span>Попыток: {mistake.attempts}</span></div>
-                <h3>{mistake.prompt}</h3>
-                <p className="wrong-answer">Твой ответ: <strong>{mistake.wrongAnswer || '—'}</strong></p>
-                <p className="right-answer">Правильно: <strong>{mistake.correctAnswer}</strong></p>
-                <p className="mistake-explanation">{mistake.explanationRu}</p>
-                <Link className="secondary-button link-button" href={`/lesson/${mistake.unitId}`}>Повторить урок</Link>
-              </article>
-            ))}
+            {mistakes.map((mistake) => {
+              const repeatHref = mistake.unitId === 'starter-reading' ? '/reading#practice' : `/lesson/${mistake.unitId}`;
+              return (
+                <article className="mistake-card" key={mistake.id}>
+                  <div className="mistake-top"><span>Попыток: {mistake.attempts}</span></div>
+                  <h3>{mistake.prompt}</h3>
+                  <p className="wrong-answer">Твой ответ: <strong>{mistake.wrongAnswer || '—'}</strong></p>
+                  <p className="right-answer">Правильно: <strong>{mistake.correctAnswer}</strong></p>
+                  <p className="mistake-explanation">{mistake.explanationRu}</p>
+                  <Link className="secondary-button link-button" href={repeatHref}>Повторить</Link>
+                </article>
+              );
+            })}
           </div>
         </section>
       )}
