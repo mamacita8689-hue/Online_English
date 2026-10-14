@@ -24,9 +24,9 @@ export default function ReadingCourseHome() {
 
       <section className="hero-card reading-hero compact-reading-hero">
         <div>
-          <p className="eyebrow">Starter · курс чтения</p>
-          <h1>Учимся читать</h1>
-          <p className="hero-subtitle">Пять коротких шагов: буквы, звуки, сочетания и первые фразы. Один урок — примерно 7–9 минут.</p>
+          <p className="eyebrow">Стартовый курс · в ритме школьной программы</p>
+          <h1>Буквы, звуки и первое чтение</h1>
+          <p className="hero-subtitle">Сначала буквы небольшими группами, как в начале Spotlight 2. Затем закрепляем короткие гласные, частые сочетания и переходим к чтению простых слов и фраз.</p>
         </div>
         <div className="hero-badge">{overall}%</div>
       </section>
@@ -35,8 +35,8 @@ export default function ReadingCourseHome() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">Маршрут</p>
-            <h2>Короткие уроки</h2>
-            <p className="section-copy">Можно идти по порядку или возвращаться к любому уроку для повторения.</p>
+            <h2>9 коротких шагов</h2>
+            <p className="section-copy">Первые шесть уроков закрепляют блок My Letters!, последние три помогают лучше понять чтение и немного опережают школьный материал.</p>
           </div>
         </div>
 
