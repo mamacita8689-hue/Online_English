@@ -1,76 +1,68 @@
 'use client';
 
 let activeAudio: HTMLAudioElement | null = null;
-const audioCache = new Map<string, string>();
 
-function scoreVoice(voice: SpeechSynthesisVoice) {
-  const name = voice.name.toLowerCase();
-  const lang = voice.lang.toLowerCase();
-  let score = 0;
+function audioId(text: string) {
+  const bytes = new TextEncoder().encode(text.trim());
+  let hash = 0x811c9dc5;
 
-  if (lang === 'en-gb') score += 100;
-  else if (lang.startsWith('en-gb')) score += 90;
-  else if (lang.startsWith('en')) score += 30;
+  for (const byte of bytes) {
+    hash ^= byte;
+    hash = Math.imul(hash, 0x01000193);
+  }
 
-  if (name.includes('natural')) score += 40;
-  if (name.includes('neural')) score += 35;
-  if (name.includes('google uk english')) score += 30;
-  if (name.includes('sonia')) score += 25;
-  if (name.includes('libby')) score += 20;
-  if (voice.localService) score += 3;
-
-  return score;
+  return (hash >>> 0).toString(16).padStart(8, '0');
 }
 
-function browserFallback(text: string) {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-  const synth = window.speechSynthesis;
-  synth.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  const voices = synth.getVoices().filter((voice) => voice.lang.toLowerCase().startsWith('en'));
-  const bestVoice = [...voices].sort((a, b) => scoreVoice(b) - scoreVoice(a))[0];
-
-  if (bestVoice) utterance.voice = bestVoice;
-  utterance.lang = bestVoice?.lang || 'en-GB';
-  utterance.rate = 0.82;
-  utterance.pitch = 1;
-  utterance.volume = 1;
-  synth.speak(utterance);
+function audioPath(text: string) {
+  return `/audio/en-gb/${audioId(text)}.wav`;
 }
 
-async function getAudioUrl(text: string) {
-  const cached = audioCache.get(text);
-  if (cached) return cached;
+function stopCurrentAudio() {
+  if (!activeAudio) return;
+  activeAudio.pause();
+  activeAudio.currentTime = 0;
+  activeAudio = null;
+}
 
-  const response = await fetch(`/api/speech?text=${encodeURIComponent(text)}`);
-  if (!response.ok) throw new Error(`Speech API returned ${response.status}`);
+function playClip(text: string) {
+  return new Promise<void>((resolve, reject) => {
+    const audio = new Audio(audioPath(text));
+    activeAudio = audio;
+    audio.preload = 'auto';
 
-  const blob = await response.blob();
-  const url = URL.createObjectURL(blob);
-  audioCache.set(text, url);
-  return url;
+    audio.addEventListener('ended', () => {
+      if (activeAudio === audio) activeAudio = null;
+      resolve();
+    }, { once: true });
+
+    audio.addEventListener('error', () => {
+      if (activeAudio === audio) activeAudio = null;
+      reject(new Error(`Missing prepared pronunciation for: ${text}`));
+    }, { once: true });
+
+    void audio.play().catch(reject);
+  });
+}
+
+export async function speakEnglishSequence(parts: string[]) {
+  if (typeof window === 'undefined') return;
+
+  stopCurrentAudio();
+
+  try {
+    for (const part of parts) {
+      const cleanText = part.trim();
+      if (!cleanText) continue;
+      await playClip(cleanText);
+    }
+  } catch (error) {
+    // Deliberately no browser-TTS fallback: a random system voice is worse than
+    // a clearly missing clip in a pronunciation-learning application.
+    console.error('Prepared pronunciation is unavailable.', error);
+  }
 }
 
 export async function speakEnglish(text: string) {
-  const cleanText = text.trim();
-  if (!cleanText || typeof window === 'undefined') return;
-
-  if (activeAudio) {
-    activeAudio.pause();
-    activeAudio.currentTime = 0;
-  }
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-
-  try {
-    const url = await getAudioUrl(cleanText);
-    const audio = new Audio(url);
-    activeAudio = audio;
-    audio.preload = 'auto';
-    await audio.play();
-  } catch (error) {
-    console.warn('High-quality speech unavailable, using selected English browser voice.', error);
-    browserFallback(cleanText);
-  }
+  await speakEnglishSequence([text]);
 }
