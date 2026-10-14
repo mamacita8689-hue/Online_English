@@ -31,12 +31,21 @@ echo 'Provisioning Python 3.12 for Kokoro...'
 uv python install 3.12
 
 VENV="$ROOT_DIR/.venv-pronunciation"
-if [[ ! -x "$VENV/bin/python" ]]; then
-  uv venv --python 3.12 "$VENV"
+
+# spaCy installs its language model through `python -m pip`. A plain `uv venv`
+# may not contain pip, so create this environment with --seed. Rebuild an older
+# environment automatically if it was created without pip.
+if [[ ! -x "$VENV/bin/python" ]] || ! "$VENV/bin/python" -m pip --version >/dev/null 2>&1; then
+  echo 'Creating seeded Python 3.12 environment...'
+  rm -rf "$VENV"
+  uv venv --seed --python 3.12 "$VENV"
 fi
 
 echo 'Installing pronunciation dependencies into .venv-pronunciation...'
 uv pip install --python "$VENV/bin/python" -r tools/pronunciation-requirements.txt
+
+echo 'Installing the English spaCy model used by Kokoro/Misaki...'
+"$VENV/bin/python" -m spacy download en_core_web_sm
 
 echo
 "$VENV/bin/python" - <<'PY'
@@ -44,7 +53,9 @@ import sys
 print('Pronunciation Python:', sys.version.split()[0])
 import kokoro
 import soundfile
-print('Kokoro and soundfile imports: OK')
+import spacy
+spacy.load('en_core_web_sm')
+print('Kokoro, soundfile and en_core_web_sm: OK')
 PY
 
 echo
