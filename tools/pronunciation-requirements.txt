@@ -1,3 +1,5 @@
-kokoro>=0.9.4
+# Kokoro 0.9.x requires Python >=3.10,<3.13.
+# In Codespaces use: bash tools/setup_pronunciation.sh
+kokoro==0.9.4
 soundfile>=0.12
 numpy>=1.26
