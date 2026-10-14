@@ -1,0 +1,120 @@
+# One exact playback target per line. These clips are generated once and committed to public/audio/en-gb/.
+# Alphabet names
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+
+# Starter words
+ant
+bed
+cat
+dog
+egg
+flag
+glass
+horse
+ink
+jug
+kangaroo
+lamp
+mouse
+nest
+orange
+pin
+queen
+rabbit
+snake
+tree
+umbrella
+vest
+window
+box
+yacht
+zip
+pen
+pig
+sun
+cup
+ship
+fish
+chair
+chick
+three
+this
+green
+book
+moon
+car
+star
+short
+hot
+
+# Starter listening / first reading
+milk
+zebra
+big cat
+red dog
+small pig
+This is a dog.
+This is a cat.
+This is a book.
+
+# Hello
+Hello!
+Hi!
+Good morning!
+Goodbye!
+Bye!
+name
+fine
+Thank you!
+My name is Masha.
+I am Misha.
+What is your name?
+My name is Sasha.
+How are you?
+I'm fine, thank you.
+My name is Max.
+Good morning!
+My name is Ben.
+My name is Lisa.
+
+# My Family
+mother
+father
+sister
+brother
+grandmother
+grandfather
+family
+This is my mother.
+This is my father.
+She is my sister.
+He is my brother.
+This is my family.
+Her name is Anna.
+His name is Max.
+Her name is Kate.
