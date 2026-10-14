@@ -39,23 +39,33 @@
 
 Для подготовки аудиопака используется локальный open-weight TTS Kokoro. Модель запускается только при разработке; интернет и модель не нужны пользователю приложения после того, как WAV-файлы добавлены в репозиторий.
 
-Подготовка окружения на Ubuntu/Codespaces:
+### Подготовка окружения в Codespaces
+
+В Codespaces системный `python` может быть версии 3.13, а Kokoro 0.9.x требует Python 3.10–3.12. Поэтому не устанавливайте зависимости обычной командой `python -m pip install -r ...` в системный Python.
+
+Вместо этого используйте подготовленный скрипт:
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y espeak-ng
-python -m pip install -r tools/pronunciation-requirements.txt
+bash tools/setup_pronunciation.sh
 ```
 
-Список утверждённых реплик находится в `tools/pronunciation_texts.txt`. Генерация:
+Он сам:
+
+- установит `espeak-ng` и `libsndfile1`;
+- поставит отдельный Python 3.12 через `uv`;
+- создаст `.venv-pronunciation`;
+- установит Kokoro и зависимости;
+- проверит импорт `kokoro` и `soundfile`.
+
+После успешной подготовки сгенерируйте WAV-файлы:
 
 ```bash
-python tools/generate_pronunciation.py
+.venv-pronunciation/bin/python tools/generate_pronunciation.py
 ```
+
+Список утверждённых реплик находится в `tools/pronunciation_texts.txt`.
 
 По умолчанию используется британский женский голос `bf_emma`, скорость `0.92`, формат WAV 24 kHz PCM. Перед добавлением нового урока его новые слова и фразы сначала добавляются в корпус, генерируются и прослушиваются взрослым, и только после проверки считаются готовыми для ребёнка.
-
-Старый маршрут `/api/speech` оставлен только как явно отключённая заглушка и ничего не отправляет во внешние сервисы.
 
 ## Принципы обучения
 
@@ -86,7 +96,8 @@ public/
 tools/
 ├── generate_pronunciation.py
 ├── pronunciation-requirements.txt
-└── pronunciation_texts.txt
+├── pronunciation_texts.txt
+└── setup_pronunciation.sh
 ```
 
 ## Запуск
