@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { Exercise, Lesson } from '@/content/types';
 import { saveLessonProgress, saveMistake } from '@/lib/storage';
+import { speakEnglish } from '@/lib/speech';
 
 type Props = {
   unitId: string;
@@ -38,15 +39,6 @@ export default function LessonPlayer({ unitId, unitTitle, unitDescription, lesso
   const exercise = lesson.exercises[exerciseIndex];
   const correct = checked ? isCorrectAnswer(exercise, answer) : false;
   const totalPoints = useMemo(() => lesson.exercises.reduce((sum, item) => sum + item.points, 0), [lesson.exercises]);
-
-  function speak(text: string) {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.8;
-    window.speechSynthesis.speak(utterance);
-  }
 
   function selectedAnswerText() {
     if (!exercise.options?.length) return answer;
@@ -133,7 +125,7 @@ export default function LessonPlayer({ unitId, unitTitle, unitDescription, lesso
         <p className="eyebrow">Новые слова</p><h2>Послушай и запомни</h2>
         <div className="word-grid">
           {lesson.vocabulary.map((word) => (
-            <button className="word-card" key={word.id} onClick={() => speak(word.english)}>
+            <button className="word-card" key={word.id} onClick={() => void speakEnglish(word.english)}>
               <span className="speaker">🔊</span><strong>{word.english}</strong><span>{word.russian}</span>{word.example ? <small>{word.example}</small> : null}
             </button>
           ))}
@@ -147,7 +139,7 @@ export default function LessonPlayer({ unitId, unitTitle, unitDescription, lesso
             <article className="theory-card" key={block.id}>
               <h3>{block.title}</h3><p>{block.explanationRu}</p>
               <div className="examples">
-                {block.examples.map((example) => <button key={example.english} onClick={() => speak(example.english)}><strong>{example.english}</strong><span>{example.russian}</span></button>)}
+                {block.examples.map((example) => <button key={example.english} onClick={() => void speakEnglish(example.english)}><strong>{example.english}</strong><span>{example.russian}</span></button>)}
               </div>
             </article>
           ))}
