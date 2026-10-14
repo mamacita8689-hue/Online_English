@@ -5,7 +5,7 @@ import { useState } from 'react';
 import type { ReadingLesson } from '@/content/reading/course';
 import type { PhonicsExample } from '@/content/reading/types';
 import { saveLessonProgress, saveMistake } from '@/lib/storage';
-import { speakEnglish } from '@/lib/speech';
+import { speakEnglish, speakEnglishSequence } from '@/lib/speech';
 import WordPicture from './WordPicture';
 
 function HighlightWord({ example }: { example: PhonicsExample }) {
@@ -116,10 +116,10 @@ export default function ReadingLessonPlayer({ lesson }: { lesson: ReadingLesson 
         <section className="panel">
           <p className="eyebrow">Смотри и слушай</p>
           <h2>Буквы этого урока</h2>
-          <p className="section-copy">Нажми на карточку: услышишь название буквы и слово-пример.</p>
+          <p className="section-copy">Нажми на карточку: услышишь название буквы, затем слово-пример.</p>
           <div className="alphabet-grid lesson-alphabet-grid">
             {lesson.alphabet.map((item) => (
-              <button className="letter-card" key={item.upper} onClick={() => void speakEnglish(`${item.upper}. ${item.word}`)}>
+              <button className="letter-card" key={item.upper} onClick={() => void speakEnglishSequence([item.upper, item.word])}>
                 <div className="letter-top"><span className="letter-pair">{item.upper}<small>{item.lower}</small></span><span className="letter-emoji">{item.emoji}</span></div>
                 <strong>{item.word}</strong><span>{item.translation}</span>
                 <div className="letter-meta"><span>название: {item.name}</span><span>пример звука: {item.sound}</span></div>
