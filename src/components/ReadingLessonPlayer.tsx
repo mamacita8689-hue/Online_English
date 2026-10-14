@@ -5,16 +5,8 @@ import { useState } from 'react';
 import type { ReadingLesson } from '@/content/reading/course';
 import type { PhonicsExample } from '@/content/reading/types';
 import { saveLessonProgress, saveMistake } from '@/lib/storage';
+import { speakEnglish } from '@/lib/speech';
 import WordPicture from './WordPicture';
-
-function speak(text: string, rate = 0.78) {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'en-GB';
-  utterance.rate = rate;
-  window.speechSynthesis.speak(utterance);
-}
 
 function HighlightWord({ example }: { example: PhonicsExample }) {
   const index = example.word.toLowerCase().indexOf(example.highlight.toLowerCase());
@@ -127,7 +119,7 @@ export default function ReadingLessonPlayer({ lesson }: { lesson: ReadingLesson 
           <p className="section-copy">Нажми на карточку: услышишь название буквы и слово-пример.</p>
           <div className="alphabet-grid lesson-alphabet-grid">
             {lesson.alphabet.map((item) => (
-              <button className="letter-card" key={item.upper} onClick={() => speak(`${item.upper}. ${item.word}`)}>
+              <button className="letter-card" key={item.upper} onClick={() => void speakEnglish(`${item.upper}. ${item.word}`)}>
                 <div className="letter-top"><span className="letter-pair">{item.upper}<small>{item.lower}</small></span><span className="letter-emoji">{item.emoji}</span></div>
                 <strong>{item.word}</strong><span>{item.translation}</span>
                 <div className="letter-meta"><span>название: {item.name}</span><span>пример звука: {item.sound}</span></div>
@@ -147,7 +139,7 @@ export default function ReadingLessonPlayer({ lesson }: { lesson: ReadingLesson 
                 <div className="phonics-head"><div className="sound-badge">{pattern.label}</div><div><p className="sound-line">Звук <strong>{pattern.sound}</strong></p><p>{pattern.explanationRu}</p></div></div>
                 <div className="phonics-examples">
                   {pattern.examples.map((example) => (
-                    <button className="visual-word-card" key={example.word} onClick={() => speak(example.word)}>
+                    <button className="visual-word-card" key={example.word} onClick={() => void speakEnglish(example.word)}>
                       <WordPicture visual={example.visual} emoji={example.emoji} label={example.word} />
                       <span className="visual-word"><HighlightWord example={example} /></span>
                       <span className="visual-translation">{example.translation}</span>
@@ -166,7 +158,7 @@ export default function ReadingLessonPlayer({ lesson }: { lesson: ReadingLesson 
         <div className="progress-track"><div style={{ width: `${((exerciseIndex + 1) / lesson.exercises.length) * 100}%` }} /></div>
         <div className="practice-prompt-row">
           <div><p className="instruction">{exercise.instructionRu}</p><h2 className="prompt">{exercise.prompt}</h2></div>
-          {exercise.speakText ? <button className="listen-button" onClick={() => speak(exercise.speakText!)}>🔊 <span>Послушать</span></button> : null}
+          {exercise.speakText ? <button className="listen-button" onClick={() => void speakEnglish(exercise.speakText!)}>🔊 <span>Послушать</span></button> : null}
         </div>
 
         {exercise.kind === 'word-builder' ? (
